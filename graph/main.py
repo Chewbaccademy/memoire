@@ -93,6 +93,10 @@ class Graph:
         string += "@enduml"
         return string
 
+    def puml_to_file(self, filename):
+        with open(filename, "w") as file:
+            file.write(self.generate_puml())
+
     def __str__(self):
         string = "Nodes : [\"" + '\",\"'.join([str(x) for x in self.nodes]) + "\"]\n"
         string += f"Edges : {[str(x) for x in self.edges]}"
