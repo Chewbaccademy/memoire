@@ -1,0 +1,5 @@
+@startuml simple
+(Noeud1) -- (Noeud2)
+(Noeud2) -- (Noeud3)
+(Noeud1) -- (Noeud3)
+@enduml
