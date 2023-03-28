@@ -33,6 +33,15 @@ class Node:
         self.name = str(name)
         self.__dict__.update(kwargs)
 
+
+    def set_properties(self, properties:dict):
+        self.__dict__.update(properties)
+
+
+    def get_properties(self) -> dict:
+        return self.__dict__.copy()
+
+
     def __str__(self):
         return str(self.name)
 
@@ -82,6 +91,16 @@ class Graph:
         for node in self.nodes:
             if node.name == name:
                 return node
+            
+
+    def set_nodes_properties(self, node_properties:dict):
+        for node_name in node_properties:
+            node = self.get_node_by_name(node_name)
+            if node is None:
+                raise ValueError("No node with name %s" % node_name)
+            
+            node.set_properties(node_properties[node_name])
+
 
     def generate_puml(self) -> str:
         string = "@startuml"
@@ -96,6 +115,16 @@ class Graph:
     def puml_to_file(self, filename):
         with open(filename, "w") as file:
             file.write(self.generate_puml())
+
+
+    def print_nodes_details(self):
+        for node in self.nodes:
+            properties = node.get_properties()
+            for property in properties:
+                print(property, ":", properties[property])
+                
+            print("================\n\n")
+
 
     def __str__(self):
         string = "Nodes : [\"" + '\",\"'.join([str(x) for x in self.nodes]) + "\"]\n"

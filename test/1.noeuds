@@ -20,7 +20,7 @@
         "light_cycle" : {
             "red" : 50,
             "green" : 50,
-            "orange" : 5,
+            "orange" : 5
         },
         "crossing" : true
     },
