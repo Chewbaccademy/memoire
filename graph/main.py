@@ -57,7 +57,17 @@ class Edge:
     def __init__(self, source:Node, target:Node, **kwargs):
         self.source = source
         self.target = target
+        self.name = "%s-%s" % (self.source.name, self.target.name)
         self.__dict__.update(kwargs)
+
+
+    def set_properties(self, properties:dict):
+        self.__dict__.update(properties)
+
+
+    def get_properties(self) -> dict:
+        return self.__dict__.copy()
+
 
     def __str__(self):
         return f"{self.source} --> {self.target}"
@@ -93,6 +103,12 @@ class Graph:
                 return node
             
 
+    def get_edge_by_name(self, name:str) -> Edge | None:
+        for edge in self.edges:
+            if edge.name == name:
+                return edge
+            
+
     def set_nodes_properties(self, node_properties:dict):
         for node_name in node_properties:
             node = self.get_node_by_name(node_name)
@@ -100,6 +116,15 @@ class Graph:
                 raise ValueError("No node with name %s" % node_name)
             
             node.set_properties(node_properties[node_name])
+
+
+    def set_edges_properties(self, edge_properties:dict):
+        for edge_name in edge_properties:
+            edge = self.get_edge_by_name(edge_name)
+            if edge is None:
+                raise ValueError("No edge with name %s" % edge_name)
+            
+            edge.set_properties(edge_properties[edge_name])
 
 
     def generate_puml(self) -> str:
@@ -120,6 +145,15 @@ class Graph:
     def print_nodes_details(self):
         for node in self.nodes:
             properties = node.get_properties()
+            for property in properties:
+                print(property, ":", properties[property])
+                
+            print("================\n\n")
+
+
+    def print_edges_details(self):
+        for edge in self.edges:
+            properties = edge.get_properties()
             for property in properties:
                 print(property, ":", properties[property])
                 

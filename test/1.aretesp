@@ -1,0 +1,9 @@
+{
+    "Noeud1-Noeud2": {
+        "Speed Limit": 50,
+        "Closed Lanes": 1
+    },
+    "Noeud3-Noeud10": {
+        "Speed Limit": 30
+    }
+}
