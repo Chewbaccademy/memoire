@@ -1,0 +1,47 @@
+{
+    "Noeud1" : {
+        "signage" : "None",
+        "crossing" : false
+    },
+    "Noeud2" : {
+        "signage" : "Stop",
+        "crossing" : false
+    },
+    "Noeud3" : {
+        "signage" : "Stop",
+        "crossing" : true
+    },
+    "Noeud4" : {
+        "signage" : "Yield",
+        "crossing" : false
+    },
+    "Noeud5" : {
+        "signage" : "Lights",
+        "light_cycle" : {
+            "red" : 50,
+            "green" : 50,
+            "orange" : 5
+        },
+        "crossing" : true
+    },
+    "Noeud6" : {
+        "signage" : "Police",
+        "crossing" : true
+    },
+    "Noeud7" : {
+        "signage" : "None",
+        "crossing" : false
+    },
+    "Noeud8" : {
+        "signage" : "None",
+        "crossing" : false
+    },
+    "Noeud9" : {
+        "signage" : "None",
+        "crossing" : false
+    },
+    "Noeud10" : {
+        "signage" : "None",
+        "crossing" : false
+    }
+}
