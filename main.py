@@ -1,5 +1,6 @@
 import reader.main as rd
 import graph.main as g
+import controller.controller as c
 
 if __name__ == "__main__":
     # Create a graph
@@ -18,6 +19,16 @@ if __name__ == "__main__":
     # Add parameters to edges
     param_edges = rd.read_json("test/1.aretesp")
     gr.set_edges_properties(param_edges)
-    gr.print_edges_details()
+    #gr.print_edges_details()
     
     gr.puml_to_file("graphs_file/res1.puml")
+    
+    agents = [
+        c.ControlledAgent("Voiture", 2.50, 150, gr.get_node_by_name("Noeud1"), gr.get_node_by_name("Noeud9"))
+        , c.ControlledAgent("Camion", 6, 80, gr.get_node_by_name("Noeud5"), gr.get_node_by_name("Noeud1"))
+    ]
+    
+    engine = c.Engine(gr, agents)
+    engine.display_state()
+    
+    

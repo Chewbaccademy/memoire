@@ -32,6 +32,19 @@ class Node:
     def __init__(self, name, **kwargs):
         self.name = str(name)
         self.__dict__.update(kwargs)
+        
+    def append_properties(self, propertie_name:str, value):
+        properties = self.get_properties()
+        
+        if propertie_name not in properties:
+            properties[propertie_name] = []
+        
+        if type(properties[propertie_name]) == list:
+            properties[propertie_name].append(value)
+        else:
+            raise ValueError(f"Cannot append a value on {propertie_name} because it is not a list")
+            
+        self.set_properties(properties=properties)
 
 
     def set_properties(self, properties:dict):
