@@ -37,7 +37,7 @@ class Node:
         properties = self.get_properties()
         
         if propertie_name not in properties:
-            properties[propertie_name] = []
+            properties[propertie_name] = [value]
         
         if type(properties[propertie_name]) == list:
             properties[propertie_name].append(value)
@@ -71,6 +71,7 @@ class Edge:
         self.source = source
         self.target = target
         self.name = "%s-%s" % (self.source.name, self.target.name)
+        self.vehicule_list = []
         self.__dict__.update(kwargs)
 
 
@@ -80,6 +81,17 @@ class Edge:
 
     def get_properties(self) -> dict:
         return self.__dict__.copy()
+    
+    def append_properties(self, propertie_name:str, value):
+        properties = self.get_properties()
+        
+        if propertie_name not in properties:
+            properties[propertie_name] = [value]
+        
+        if type(properties[propertie_name]) == list:
+            properties[propertie_name].append(value)
+        else:
+            raise ValueError(f"Cannot append a value on {propertie_name} because it is not a list")
 
 
     def __str__(self):

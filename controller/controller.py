@@ -1,6 +1,6 @@
 from agent.agent import Agent
 from graph.main import Node
-from graph.main import Graph, Node
+from graph.main import Graph, Node, Edge
 
 
 class ControlledAgent(Agent):
@@ -11,6 +11,14 @@ class ControlledAgent(Agent):
         
     def __str__(self):
         return f"= {self.name} | L = {self.longueur}, vmax = {self.vitesse_max} | s {self.depart} --> {self.arrivee} d\n"
+    
+    def go_to_edge(self, targeted_edge:Edge) -> bool:
+        if sum([l.longueur for l in targeted_edge.vehicule_list]) + self.longueur <= targeted_edge.get_properties("longueur"):
+            targeted_edge.append_properties("vehicule_list", self)
+            return True
+        else:
+            return False
+        
         
         
 class Engine:
