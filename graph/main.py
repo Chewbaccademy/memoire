@@ -62,7 +62,7 @@ class Node:
     def generate_nodes_by_name(nodes:"list[str]") -> "list[Node]":
         ret = []
         for node_name in nodes:
-            ret.append(Node(node_name))
+            ret.append(Node(node_name, current_agent = None))
         return ret
 
 class Edge:
@@ -81,6 +81,9 @@ class Edge:
 
     def get_properties(self) -> dict:
         return self.__dict__.copy()
+    
+    def get_property(self, name:str):
+        return self.__dict__[name]
     
     def append_properties(self, propertie_name:str, value):
         properties = self.get_properties()
