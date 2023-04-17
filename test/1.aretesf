@@ -1,10 +1,10 @@
 {
     "Noeud1-Noeud2": {
-        "Length": 1.3,
-        "Lanes": 2
+        "Length": 1300,
+        "Lanes": 1
     },
     "Noeud3-Noeud10": {
-        "Length": 0.5,
+        "Length": 500,
         "Lanes": 1
     }
 }

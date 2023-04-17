@@ -13,7 +13,7 @@ if __name__ == "__main__":
     #gr.print_nodes_details()
 
     # Add fixed properties to edges
-    fixed_e_properties = rd.read_json("test/1.aretesf")
+    fixed_e_properties = rd.read_json("test/2.aretesf")
     gr.set_edges_properties(fixed_e_properties)
 
     # Add parameters to edges
@@ -30,5 +30,6 @@ if __name__ == "__main__":
     
     engine = c.Engine(gr, agents)
     engine.display_state()
+    engine.simulate(0.5)
     
     
