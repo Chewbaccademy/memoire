@@ -1,92 +1,92 @@
 {
     "Noeud1-Noeud2": {
-        "length": 100
+        "length": 1300
     },
     "Noeud1-Noeud3": {
-        "length": 100
+        "length": 200
     },
     "Noeud1-Noeud5": {
-        "length": 100
+        "length": 250
     },
     "Noeud2-Noeud1": {
         "length": 100
     },
     "Noeud2-Noeud6": {
-        "length": 100
+        "length": 50
     },
     "Noeud2-Noeud7": {
-        "length": 100
+        "length": 50
     },
     "Noeud3-Noeud1": {
         "length": 100
     },
     "Noeud3-Noeud10": {
-        "length": 100
+        "length": 150
     },
     "Noeud4-Noeud6": {
-        "length": 100
+        "length": 720
     },
     "Noeud4-Noeud8": {
-        "length": 100
+        "length": 70
     },
     "Noeud5-Noeud1": {
-        "length": 100
+        "length": 140
     },
     "Noeud5-Noeud7": {
-        "length": 100
+        "length": 500
     },
     "Noeud5-Noeud9": {
-        "length": 100
+        "length": 80
     },
     "Noeud5-Noeud10": {
-        "length": 100
+        "length": 430
     },
     "Noeud6-Noeud2": {
-        "length": 100
+        "length": 460
     },
     "Noeud6-Noeud4": {
-        "length": 100
+        "length": 590
     },
     "Noeud6-Noeud8": {
-        "length": 100
+        "length": 610
     },
     "Noeud6-Noeud9": {
-        "length": 100
+        "length": 550
     },
     "Noeud7-Noeud2": {
-        "length": 100
+        "length": 300
     },
     "Noeud7-Noeud5": {
-        "length": 100
+        "length": 350
     },
     "Noeud8-Noeud4": {
-        "length": 100
+        "length": 800
     },
     "Noeud8-Noeud6": {
-        "length": 100
+        "length": 200
     },
     "Noeud8-Noeud9": {
-        "length": 100
+        "length": 210
     },
     "Noeud9-Noeud5": {
-        "length": 100
+        "length": 950
     },
     "Noeud9-Noeud6": {
-        "length": 100
+        "length": 180
     },
     "Noeud9-Noeud8": {
-        "length": 100
+        "length": 70
     },
     "Noeud9-Noeud10": {
-        "length": 100
+        "length": 80
     },
     "Noeud10-Noeud3": {
         "length": 100
     },
     "Noeud10-Noeud5": {
-        "length": 100
+        "length": 200
     },
     "Noeud10-Noeud9": {
-        "length": 100
+        "length": 150
     }
 }

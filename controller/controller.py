@@ -1,7 +1,7 @@
 from agent.agent import Agent
 from graph.main import Node
 from graph.main import Graph, Node, Edge
-
+from time import sleep
 
 class ControlledAgent(Agent):
     
@@ -48,6 +48,7 @@ class ControlledAgent(Agent):
     
     def step(self, time_slice:float) -> bool:
         
+        sleep(0.1)
         if self.terminate == True:
             return True
     
@@ -69,13 +70,15 @@ class ControlledAgent(Agent):
         
         if self.distance_parcourue_sur_arrete + distance_avancee > self.current_place.get_property("length") \
             and self.current_place.get_property("vehicule_list")[-1] == self:
+            print("arrivee au bout")
             self.current_place.get_property("vehicule_list").pop(-1)
+            self.memory.append({'distance': self.current_place.get_property("length") - self.distance_parcourue_sur_arrete})
             return self.go_to_node(self.current_place.target)
         
         
         index_vehicule = self.current_place.get_property("vehicule_list").index(self)
         block_point = self.current_place.get_property("length")
-        for vehicule in self.current_place.get_property("vehicule_list")[index_vehicule:]:
+        for vehicule in self.current_place.get_property("vehicule_list")[index_vehicule+1:]:
             block_point -= vehicule.get_property("length")
             
         old_distance_parcourue_sur_arrete = self.distance_parcourue_sur_arrete

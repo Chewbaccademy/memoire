@@ -1,92 +1,92 @@
 {
     "Noeud1-Noeud2": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud1-Noeud3": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud1-Noeud5": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     },
     "Noeud2-Noeud1": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud2-Noeud6": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud2-Noeud7": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     },
     "Noeud3-Noeud1": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud3-Noeud10": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     },
     "Noeud4-Noeud6": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud4-Noeud8": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud5-Noeud1": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     },
     "Noeud5-Noeud7": {
-        "speed_limit": 40
+        "speed_limit": 11.1111111111
     },
     "Noeud5-Noeud9": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud5-Noeud10": {
-        "speed_limit": 70
+        "speed_limit": 19.4444444444
     },
     "Noeud6-Noeud2": {
-        "speed_limit": 70
+        "speed_limit": 19.4444444444
     },
     "Noeud6-Noeud4": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud6-Noeud8": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     },
     "Noeud6-Noeud9": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     },
     "Noeud7-Noeud2": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     },
     "Noeud7-Noeud5": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     },
     "Noeud8-Noeud4": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud8-Noeud6": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud8-Noeud9": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud9-Noeud5": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud9-Noeud6": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     },
     "Noeud9-Noeud8": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     },
     "Noeud9-Noeud10": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     },
     "Noeud10-Noeud3": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     },
     "Noeud10-Noeud5": {
-        "speed_limit": 50
+        "speed_limit": 13.8888888889
     },
     "Noeud10-Noeud9": {
-        "speed_limit": 30
+        "speed_limit": 8.33333333333
     }
 }
