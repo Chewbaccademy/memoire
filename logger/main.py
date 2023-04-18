@@ -5,7 +5,7 @@ from graph.main import Edge
 
 class Logger:
     def __init__(self):
-        AGENTS_COLUMNS = ["Step", "Name", "Emission", "Start", "End", "Position", "Has Arrived", "Distance Traveled"]
+        AGENTS_COLUMNS = ["Step", "Name", "Emission By Kilometer (running)", "Emission By Minute (idle)", "Consumption", "Start", "End", "Position", "Has Arrived", "Distance Traveled"]
         EDGES_COLUMNS = ["Step", "Name", "Length", "Lanes", "Occupied Length"]
 
         self.agents_data = pd.DataFrame(columns=AGENTS_COLUMNS)
@@ -43,7 +43,9 @@ class Logger:
         row = {
             "Step": step,
             "Name": properties["name"],
-            "Emission": properties["emission"],
+            "Emission By Kilometer (running)": properties["emission"],
+            "Emission By Minute (idle)": properties["emission_idle"],
+            "Consumption": properties["consumption"],
             "Start": properties["depart"].name,
             "End": properties["arrivee"].name,
             "Position": properties["current_place"],
@@ -51,5 +53,4 @@ class Logger:
             "Distance Traveled": properties["distance_parcourue"]
         }
 
-        print(row)
         self.agents_data.loc[len(self.agents_data)] = row
