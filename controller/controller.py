@@ -8,6 +8,7 @@ class ControlledAgent(Agent):
     def __init__(self, name, length:float, vitesse_max:float, depart:Node, arrivee:Node, **properties) -> None:
         super().__init__(name, length=length, vitesse_max=vitesse_max, depart=depart, arrivee=arrivee,  **properties)
         self.distance_parcourue_sur_arrete = 0
+        self.distance_parcourue = 0
         self.current_place = depart
         self.path:list = None
         self.vitesse = 0

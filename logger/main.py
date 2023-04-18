@@ -17,7 +17,7 @@ class Logger:
         self.edges_data.to_csv("../results/edges_data.csv")
 
 
-    def record_edge_state(self, edge:Edge) -> None:
+    def record_edge_state(self, edge:Edge, step) -> None:
         properties = edge.get_properties()
 
         occupied_length = 0
@@ -27,6 +27,7 @@ class Logger:
         occupied_length /= properties["Lanes"]
 
         row = {
+            "Step": step,
             "Name": properties["name"],
             "Length": properties["Length"],
             "Lanes": properties["Lanes"],
@@ -36,17 +37,17 @@ class Logger:
         self.edges_data.loc[len(self.edges_data)] = row
 
 
-    def record_agent_state(self, agent:ControlledAgent) -> None:
+    def record_agent_state(self, agent:ControlledAgent, step) -> None:
         properties = agent.get_properties()
 
         row = {
+            "Step": step,
             "Name": properties["name"],
             "Emission": properties["emission"],
             "Start": properties["depart"].name,
             "End": properties["arrivee"].name,
-            # "Has Arrived": properties["arrivee"] == properties["current_position"],
-            # "Roadtime": properties["Roadtime"],
-            # "Distance": properties["distance_parcourue"]
+            "Has Arrived": properties["terminate"],
+            "Distance Traveled": properties["distance_parcourue"]
         }
 
         self.edges_data.loc[len(self.edges_data)] = row
