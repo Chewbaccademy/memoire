@@ -1,6 +1,7 @@
 from agent.agent import Agent
 from graph.main import Node
 from graph.main import Graph, Node, Edge
+from logger.main import Logger
 from time import sleep
 
 class ControlledAgent(Agent):
@@ -37,6 +38,9 @@ class ControlledAgent(Agent):
         if targeted_node.current_agent == None:
             targeted_node.current_agent = self
             self.current_place = targeted_node
+            if targeted_node == self.arrivee:
+                self.terminate = True
+                
             return True
     
         return False
@@ -48,7 +52,6 @@ class ControlledAgent(Agent):
     
     def step(self, time_slice:float) -> bool:
         
-        sleep(0.1)
         if self.terminate == True:
             return True
     
@@ -73,6 +76,7 @@ class ControlledAgent(Agent):
             print("arrivee au bout")
             self.current_place.get_property("vehicule_list").pop(-1)
             self.memory.append({'distance': self.current_place.get_property("length") - self.distance_parcourue_sur_arrete})
+            self.distance_parcourue += self.current_place.get_property("length") - self.distance_parcourue_sur_arrete
             return self.go_to_node(self.current_place.target)
         
         
@@ -85,6 +89,7 @@ class ControlledAgent(Agent):
         self.distance_parcourue_sur_arrete = min(block_point, self.distance_parcourue_sur_arrete + distance_avancee)
         
         self.memory.append({'distance': self.distance_parcourue_sur_arrete - old_distance_parcourue_sur_arrete})
+        self.distance_parcourue += self.distance_parcourue_sur_arrete - old_distance_parcourue_sur_arrete
         
         return True
         
@@ -106,6 +111,8 @@ class Engine:
     def __init__(self, graph:Graph, agent_list:list[ControlledAgent]) -> None:
         self.graph = graph
         self.agent_list = agent_list
+        self.logger = Logger()
+        self.step = 0
         
         for agent in self.agent_list:
             depart_node:Node = agent.depart
@@ -131,9 +138,17 @@ class Engine:
         while not self.__every_agent_is_terminated():
             for agent in self.agent_list:
                 agent.step(time_slice=time_slice)
+                self.logger.record_agent_state(agent, self.step)
+
+            for edge in self.graph.edges:
+                self.logger.record_edge_state(edge, self.step)
+            
+            self.step += 1
                 
         for agent in self.agent_list:
             print(agent.memory)
+
+        self.logger.extract_data()
         
             
     def __every_agent_is_terminated(self):
