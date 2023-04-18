@@ -24,8 +24,8 @@ if __name__ == "__main__":
     gr.puml_to_file("graphs_file/res1.puml")
     
     agents = [
-        c.ControlledAgent("Voiture", 2.50, 41.6666666667, gr.get_node_by_name("Noeud1"), gr.get_node_by_name("Noeud9"))
-        , c.ControlledAgent("Camion", 6, 13.8888888889, gr.get_node_by_name("Noeud5"), gr.get_node_by_name("Noeud1"))
+        c.ControlledAgent("Voiture", 2.50, 41.6666666667, gr.get_node_by_name("Noeud1"), gr.get_node_by_name("Noeud9"), emission=2)
+        , c.ControlledAgent("Camion", 6, 13.8888888889, gr.get_node_by_name("Noeud5"), gr.get_node_by_name("Noeud1"), emission=5)
     ]
     
     engine = c.Engine(gr, agents)

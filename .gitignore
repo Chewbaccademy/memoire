@@ -130,3 +130,6 @@ dmypy.json
 
 # Generated files for graph
 graphs_file
+
+# Results
+results/
