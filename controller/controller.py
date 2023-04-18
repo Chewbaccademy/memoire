@@ -51,6 +51,7 @@ class ControlledAgent(Agent):
         if self.terminate == True:
             return True
     
+        # set the end of simulation for agent who have reached their destination
         if self.current_place == self.arrivee:
             self.terminate = True
             return True
@@ -58,6 +59,7 @@ class ControlledAgent(Agent):
         
         print("%s | current_place : %s | length_driven : %s | path : %s | terminated : %s" % (self.name, self.current_place, self.distance_parcourue_sur_arrete, self.display_path(), self.terminate))
         
+        # travel to the next edge on the path
         if type(self.current_place) == Node:
             if self.current_place == self.arrivee:
                 self.current_place.current_agent = None
@@ -67,6 +69,7 @@ class ControlledAgent(Agent):
         
         distance_avancee = self.vitesse * time_slice
         
+        # if reached the end of the edge
         if self.distance_parcourue_sur_arrete + distance_avancee > self.current_place.get_property("length") \
             and self.current_place.get_property("vehicule_list")[-1] == self:
             print("arrivee au bout")
@@ -74,7 +77,7 @@ class ControlledAgent(Agent):
             self.memory.append({'distance': self.current_place.get_property("length") - self.distance_parcourue_sur_arrete})
             return self.go_to_node(self.current_place.target)
         
-        
+        # test if the vehicule is blocked by other cars
         index_vehicule = self.current_place.get_property("vehicule_list").index(self)
         block_point = self.current_place.get_property("length")
         for vehicule in self.current_place.get_property("vehicule_list")[index_vehicule+1:]:
@@ -123,10 +126,12 @@ class Engine:
         
     def simulate(self, time_slice:float) -> None:
         
+        # generate all the paths for every agents
         for agent in self.agent_list:
             agent.generate_path(self.graph, dijkstra)
             print(agent.display_path())
-            
+        
+        # launch the simulation
         while not self.__every_agent_is_terminated():
             for agent in self.agent_list:
                 agent.step(time_slice=time_slice)
