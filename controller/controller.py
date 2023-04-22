@@ -35,8 +35,9 @@ class ControlledAgent(Agent):
         return False
         
     def go_to_node(self, targeted_node:Node) -> bool:
-        if targeted_node.current_agent == None:
+        if targeted_node.current_agent == None or targeted_node.current_agent.terminate:
             targeted_node.current_agent = self
+            self.current_place.get_property("vehicule_list").pop(0)
             self.current_place = targeted_node
             if targeted_node == self.arrivee:
                 self.terminate = True
@@ -72,17 +73,15 @@ class ControlledAgent(Agent):
         distance_avancee = self.vitesse * time_slice
         
         if self.distance_parcourue_sur_arrete + distance_avancee > self.current_place.get_property("length") \
-            and self.current_place.get_property("vehicule_list")[-1] == self:
+            and self.current_place.get_property("vehicule_list")[0] == self:
             print("arrivee au bout")
-            self.current_place.get_property("vehicule_list").pop(-1)
             self.memory.append({'distance': self.current_place.get_property("length") - self.distance_parcourue_sur_arrete})
             self.distance_parcourue += self.current_place.get_property("length") - self.distance_parcourue_sur_arrete
             return self.go_to_node(self.current_place.target)
         
-        
         index_vehicule = self.current_place.get_property("vehicule_list").index(self)
         block_point = self.current_place.get_property("length")
-        for vehicule in self.current_place.get_property("vehicule_list")[index_vehicule+1:]:
+        for vehicule in self.current_place.get_property("vehicule_list")[:index_vehicule]:
             block_point -= vehicule.get_property("length")
             
         old_distance_parcourue_sur_arrete = self.distance_parcourue_sur_arrete
