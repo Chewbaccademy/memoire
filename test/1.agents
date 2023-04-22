@@ -1,0 +1,22 @@
+{
+  "seed": 1,
+  "agents" :
+    [
+      {
+        "number": 2,
+        "length":2.8,
+        "vitesse_max" : 200,
+        "emission": 40,
+        "emission_idle": 45,
+        "consumption": 0.2
+      },
+      {
+        "number": 3,
+        "length": 10,
+        "vitesse_max" : 100,
+        "emission": 86,
+        "emission_idle": 100,
+        "consumption": 0.6
+      }
+    ]
+}

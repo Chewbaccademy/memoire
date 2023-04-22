@@ -2,6 +2,9 @@ import reader.main as rd
 import graph.main as g
 import controller.controller as c
 
+import random
+
+
 if __name__ == "__main__":
     # Create a graph
     adjacence = g.Adjacency(rd.read_csv("test/1.reseau"))
@@ -23,11 +26,20 @@ if __name__ == "__main__":
     
     gr.puml_to_file("graphs_file/res1.puml")
     
-    agents = [
-        c.ControlledAgent("Voiture", 2.50, 41.6666666667, gr.get_node_by_name("Noeud1"), gr.get_node_by_name("Noeud9"), emission=2, emission_idle=2.1, consumption=1.2)
-        , c.ControlledAgent("Camion", 6, 13.8888888889, gr.get_node_by_name("Noeud5"), gr.get_node_by_name("Noeud1"), emission=5, emission_idle=5.2, consumption=5.1)
-    ]
-    
+    param_agents = rd.read_json("test/1.agents")
+    random.seed(param_agents["seed"])
+    n = 1 # Id to make sure agents names are unique
+    agents = []
+    for agent_type in param_agents["agents"]:
+        for i in range(agent_type["number"]):
+            start_end = random.sample(gr.nodes, 2)
+            name = "Agent%i" % n
+            n += 1
+            agent = c.ControlledAgent(name, agent_type["length"], agent_type["vitesse_max"], start_end[0], start_end[1], emission=agent_type["emission"], emission_idle=agent_type["emission_idle"], consumption=agent_type["consumption"])
+            print(agent)
+            agents.append(agent)
+
+
     engine = c.Engine(gr, agents)
     engine.display_state()
     engine.simulate(0.5)
