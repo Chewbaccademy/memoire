@@ -6,3 +6,6 @@ class Agent:
         self.name = name
         self.__dict__.update(properties)
         
+
+    def get_properties(self):
+        return self.__dict__.copy()

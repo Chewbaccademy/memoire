@@ -9,8 +9,8 @@ with open('test/1.reseau', 'r') as file:
         for c_i, value in enumerate(line.split(',')):
             print(value)
             if int(value) == 1:
-                node_name = str(nodes[l_i]) + "-" + str(nodes[c_i])
-                dico[node_name] = {'length': 100}
+                edge_name = str(nodes[l_i]) + "-" + str(nodes[c_i])
+                dico[edge_name] = {'length': 100, 'lanes': 1}
 
 json_ = json.dumps(dico)
 with open("2.aretesf", "w") as f:
