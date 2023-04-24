@@ -49,10 +49,20 @@ class Node:
 
     def set_properties(self, properties:dict):
         self.__dict__.update(properties)
+        
+    def set_property(self, property:str, value):
+        props = self.get_properties()
+        props[property] = value
+        self.__dict__.update(props)
 
 
     def get_properties(self) -> dict:
         return self.__dict__.copy()
+    
+    def get_property(self, property_name:str) -> dict:
+        return self.__dict__.copy()[property_name]
+            
+        
 
 
     def __str__(self):

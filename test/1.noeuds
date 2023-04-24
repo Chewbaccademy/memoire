@@ -1,47 +1,70 @@
 {
     "Noeud1" : {
-        "signage" : "None",
-        "crossing" : false
+        "signage" : "none",
+        "edges": ["Noeud5-Noeud1", "Noeud2-Noeud1", "Noeud3-Noeud1"]
     },
     "Noeud2" : {
-        "signage" : "Stop",
-        "crossing" : false
+        "signage" : "none",
+        "edges": ["Noeud1-Noeud2", "Noeud6-Noeud2", "Noeud7-Noeud2"]
     },
     "Noeud3" : {
-        "signage" : "Stop",
-        "crossing" : true
+        "signage" : "none",
+        "edges": ["Noeud1-Noeud3", "Noeud10-Noeud3"]
     },
     "Noeud4" : {
-        "signage" : "Yield",
-        "crossing" : false
+        "signage" : "none",
+        "edges": ["Noeud6-Noeud4", "Noeud8-Noeud4"]
     },
     "Noeud5" : {
-        "signage" : "Lights",
-        "light_cycle" : {
-            "red" : 50,
-            "green" : 50,
-            "orange" : 5
-        },
-        "crossing" : true
+        "signage" : "lights",
+        "light_phases" : [
+            {
+                "edges": ["Noeud1-Noeud5", "Noeud9-Noeud5"],
+                "green_time": 5,
+                "orange_time": 5,
+                "delay": 2
+            },
+            {
+                "edges": ["Noeud10-Noeud5", "Noeud7-Noeud5"],
+                "green_time": 5,
+                "orange_time": 5,
+                "delay": 2
+            }
+        ],
+        "edges": ["Noeud1-Noeud5", "Noeud10-Noeud5", "Noeud9-Noeud5", "Noeud7-Noeud5"]
     },
     "Noeud6" : {
-        "signage" : "Police",
-        "crossing" : true
+        "signage" : "lights",
+        "light_phases" : [
+            {
+                "edges": ["Noeud2-Noeud6", "Noeud8-Noeud6"],
+                "green_time": 5,
+                "orange_time": 5,
+                "delay": 2
+            },
+            {
+                "edges": ["Noeud4-Noeud6", "Noeud9-Noeud6"],
+                "green_time": 5,
+                "orange_time": 5,
+                "delay": 2
+            }
+        ],
+        "edges": ["Noeud2-Noeud6", "Noeud4-Noeud6", "Noeud8-Noeud6", "Noeud9-Noeud6"]
     },
     "Noeud7" : {
-        "signage" : "None",
-        "crossing" : false
+        "signage" : "none",
+        "edges": ["Noeud2-Noeud7", "Noeud5-Noeud7"]
     },
     "Noeud8" : {
-        "signage" : "None",
-        "crossing" : false
+        "signage" : "none",
+        "edges": ["Noeud4-Noeud8", "Noeud6-Noeud8", "Noeud9-Noeud8"]
     },
     "Noeud9" : {
-        "signage" : "None",
-        "crossing" : false
+        "signage" : "none",
+        "edges": ["Noeud5-Noeud9", "Noeud6-Noeud9", "Noeud8-Noeud9", "Noeud10-Noeud9"]
     },
     "Noeud10" : {
-        "signage" : "None",
-        "crossing" : false
+        "signage" : "none",
+        "edges": ["Noeud3-Noeud10", "Noeud5-Noeud10", "Noeud9-Noeud10"]
     }
 }

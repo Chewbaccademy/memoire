@@ -6,7 +6,7 @@ from time import sleep
 
 class ControlledAgent(Agent):
     
-    def __init__(self, name, length:float, vitesse_max:float, depart:Node, arrivee:Node, **properties) -> None:
+    def __init__(self, name, length:float, vitesse_max:float, graph:Graph, depart:Node, arrivee:Node, **properties) -> None:
         super().__init__(name, length=length, vitesse_max=vitesse_max, depart=depart, arrivee=arrivee,  **properties)
         self.distance_parcourue_sur_arrete = 0
         self.distance_parcourue = 0
@@ -15,6 +15,8 @@ class ControlledAgent(Agent):
         self.vitesse = 0
         self.memory = []
         self.terminate = False
+        self.graph = graph
+        self.time_slice = 1
         
     def __str__(self):
         return f"= {self.name} | L = {self.length}, vmax = {self.vitesse_max} | s {self.depart} --> {self.arrivee} d\n"
@@ -23,26 +25,59 @@ class ControlledAgent(Agent):
         return self.__dict__[name]
     
     def go_to_edge(self, targeted_edge:Edge) -> bool:
+        if targeted_edge.vehicule_list != [] and targeted_edge.vehicule_list[-1].distance_parcourue_sur_arrete - targeted_edge.vehicule_list[-1].length <= self.length:
+            return False
         if sum([l.length for l in targeted_edge.vehicule_list]) + self.length <= targeted_edge.get_property("length") \
             and self.current_place == targeted_edge.source:
             self.current_place.current_agent = None
             targeted_edge.append_properties("vehicule_list", self)
             self.current_place = targeted_edge
-            self.distance_parcourue_sur_arrete = 0
+            self.distance_parcourue += self.length
+            self.distance_parcourue_sur_arrete = self.length
+            self.memory.append({'distance': self.length})
             self.vitesse = min(self.vitesse_max, targeted_edge.get_property("speed_limit"))
             return True
             
         return False
+    
+    def priority_check(self, targeted_node:None) -> bool:
+        if targeted_node.signage == None or targeted_node.signage == "none":
+            current_index = targeted_node.edges.index(self.current_place.get_property("name"))
+            priority_index = (current_index + 1 if current_index + 1 < len(targeted_node.edges) else 0)
+            priority_edge = self.graph.get_edge_by_name(targeted_node.edges[priority_index])
+            try:
+                print(priority_edge, priority_edge.get_property("length"))
+            except Exception as e:
+                print(targeted_node.edges)
+                print(current_index)
+                print(priority_index)
+                raise e
+            if priority_edge.vehicule_list == []:
+                return True
+            return priority_edge.vehicule_list[0].distance_parcourue_sur_arrete \
+                                + priority_edge.vehicule_list[0].vitesse \
+                                * self.time_slice \
+                                <= priority_edge.get_property('length')
+                                
+        elif targeted_node.signage == "lights":
+            if not self.current_place.name in targeted_node.light_phases[targeted_node.get_property("current_phase")]["edges"]:
+                print("feu rouge detecté, temps restant : %s" % (targeted_node.get_property("countdown")))
+            return self.current_place.name in targeted_node.light_phases[targeted_node.get_property("current_phase")]["edges"]
+        
+        return False
+                
+            
         
     def go_to_node(self, targeted_node:Node) -> bool:
-        if targeted_node.current_agent == None or targeted_node.current_agent.terminate:
-            targeted_node.current_agent = self
-            self.current_place.get_property("vehicule_list").pop(0)
-            self.current_place = targeted_node
-            if targeted_node == self.arrivee:
-                self.terminate = True
-                
-            return True
+        if self.priority_check(targeted_node):
+            if targeted_node.current_agent == None or targeted_node.current_agent.terminate:
+                targeted_node.current_agent = self
+                self.current_place.get_property("vehicule_list").pop(0)
+                self.current_place = targeted_node
+                if targeted_node == self.arrivee:
+                    self.terminate = True
+                    
+                return True
     
         return False
     
@@ -52,6 +87,7 @@ class ControlledAgent(Agent):
         return path
     
     def step(self, time_slice:float) -> bool:
+        self.time_slice = time_slice
         
         if self.terminate == True:
             return True
@@ -69,7 +105,9 @@ class ControlledAgent(Agent):
             if self.current_place == self.arrivee:
                 self.current_place.current_agent = None
                 self.terminate = True
-            res = self.go_to_edge(self.path.pop(0))
+            res = self.go_to_edge(self.path[0])
+            if res:
+                self.path.pop(0)
             return res        
         
         distance_avancee = self.vitesse * time_slice
@@ -77,10 +115,10 @@ class ControlledAgent(Agent):
         # if reached the end of the edge
         if self.distance_parcourue_sur_arrete + distance_avancee > self.current_place.get_property("length") \
             and self.current_place.get_property("vehicule_list")[0] == self:
-            print("arrivee au bout")
             self.memory.append({'distance': self.current_place.get_property("length") - self.distance_parcourue_sur_arrete})
             self.distance_parcourue += self.current_place.get_property("length") - self.distance_parcourue_sur_arrete
-            return self.go_to_node(self.current_place.target)
+            res=self.go_to_node(self.current_place.target)
+            return res
         
 
         # test if the vehicule is blocked by other cars
@@ -142,6 +180,31 @@ class Engine:
         
         # launch the simulation
         while not self.__every_agent_is_terminated():
+            
+            # trafic lights management
+            nodes_with_lights = [n for n in self.graph.nodes if n.signage == "lights"]
+            for node in nodes_with_lights:
+                if not "current_phase" in node.get_properties():
+                    node.set_property("current_phase", 0)
+                    node.set_property("color", "green")
+                    node.set_property("countdown", node.light_phases[0]["green_time"] + time_slice)
+                    
+                node.set_property("countdown", node.countdown - time_slice)
+                
+                if node.countdown == 0:
+                    if node.get_property("color") == "green":
+                        node.set_property("color", "orange")
+                        node.set_property("countdown", node.light_phases[0]["orange_time"])
+                    if node.get_property("color") == "orange" and "delay" in node.light_phases[0]:
+                        node.set_property("color", "delay")
+                        node.set_property("countdown", node.light_phases[0]["delay"])
+                    else:
+                        new_phase = (node.get_property("current_phase") + 1 if node.get_property("current_phase") + 1 < len(node.light_phases) else 0)
+                        node.set_property("current_phase", new_phase)
+                        node.set_property("color", "green")
+                        node.set_property("countdown", node.light_phases[new_phase]["green_time"] + time_slice)
+                
+            
             for agent in self.agent_list:
                 agent.step(time_slice=time_slice)
                 self.logger.record_agent_state(agent, self.step)

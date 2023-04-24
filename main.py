@@ -35,7 +35,7 @@ if __name__ == "__main__":
             start_end = random.sample(gr.nodes, 2)
             name = "Agent%i" % n
             n += 1
-            agent = c.ControlledAgent(name, agent_type["length"], agent_type["vitesse_max"], start_end[0], start_end[1], emission=agent_type["emission"], emission_idle=agent_type["emission_idle"], consumption=agent_type["consumption"])
+            agent = c.ControlledAgent(name, agent_type["length"], agent_type["vitesse_max"], gr, start_end[0], start_end[1], emission=agent_type["emission"], emission_idle=agent_type["emission_idle"], consumption=agent_type["consumption"])
             print(agent)
             agents.append(agent)
 
