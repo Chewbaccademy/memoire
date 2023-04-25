@@ -133,3 +133,6 @@ graphs_file
 
 # Results
 results/
+
+# Configuration files
+config/
