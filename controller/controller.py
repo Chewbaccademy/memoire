@@ -207,10 +207,10 @@ class Engine:
             
             for agent in self.agent_list:
                 agent.step(time_slice=time_slice)
-                self.logger.record_agent_state(agent, self.step)
+                self.logger.record_agent_state(agent, self.step, time_slice=time_slice)
 
             for edge in self.graph.edges:
-                self.logger.record_edge_state(edge, self.step)
+                self.logger.record_edge_state(edge, self.step, time_slice=time_slice)
             
             self.step += 1
                 
