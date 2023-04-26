@@ -191,7 +191,7 @@ class Engine:
                     
                 node.set_property("countdown", node.countdown - time_slice)
                 
-                if node.countdown == 0:
+                if node.countdown <= 0:
                     if node.get_property("color") == "green":
                         node.set_property("color", "orange")
                         node.set_property("countdown", node.light_phases[0]["orange_time"])

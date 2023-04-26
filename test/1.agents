@@ -3,7 +3,7 @@
   "agents" :
     [
       {
-        "number": 2,
+        "number": 10,
         "length":2.8,
         "vitesse_max" : 200,
         "emission": 40,
@@ -11,7 +11,7 @@
         "consumption": 0.2
       },
       {
-        "number": 3,
+        "number": 5,
         "length": 10,
         "vitesse_max" : 100,
         "emission": 86,

@@ -7,7 +7,7 @@ import graph.main as g
 import controller.controller as c
 
 N = 20 # Configurations to generate
-possible_limits = [30, 50, 70]
+possible_limits = [30/3.6, 50/3.6, 70/3.6]
 possible_signages = ["none", "lights"]
 node_edges = {
     "Noeud1" : ["Noeud5-Noeud1", "Noeud2-Noeud1", "Noeud3-Noeud1"],
@@ -23,6 +23,7 @@ node_edges = {
 }
 
 for i in range(N):
+    print("\n\n\n\n=============== SIMULATION %i ================\n\n\n\n" % i)
     # Generate .aretesp file
     aretesp = dict()
     with open('test/1.reseau', 'r') as file:
@@ -92,7 +93,7 @@ for i in range(N):
 
     engine = c.Engine(gr, agents)
     engine.display_state()
-    engine.simulate(1)
+    engine.simulate(0.1)
 
     # Rename the result files
     os.rename("results/agents_data.csv", "results/%i_agents_data.csv" % i)
