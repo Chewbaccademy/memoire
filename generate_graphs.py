@@ -10,7 +10,9 @@ files = glob.glob('results/*_agents_data.json')
 for file in files:
     with open(file, 'r') as f:
         data.append({"simulation": json.loads(f.read())})
-        
+
+plt.rcParams["figure.figsize"] = (9,5)
+
 # def mean(data:list):
 #     return sum(data)/len(data)
 
@@ -53,22 +55,59 @@ for file in files:
 
 # Consumption
 
+# x = []
+# y = []
+# for simulation in data:
+#     x += ["Simulation %i" % (len(x)+1)]
+#     total_consumption = 0
+#     nb_agents = 0
+#     for info in simulation['simulation']:
+#         if 'Agent' in info:
+#             nb_agents += 1
+#             total_consumption += simulation['simulation'][info]["total_consumption"]
+#     y.append(total_consumption/nb_agents)
+
+# print(x)
+# print(y)
+
+# plt.barh(x, y)
+# plt.xlabel("Coût (€)")
+# plt.title("Coût moyen de la consommation énergétique par agent par simulation")
+# plt.show()
+
+
+# Travel time
+
+
+# x = []
+# y = []
+# for simulation in data:
+#     x += [simulation['simulation'][x]['total_time'] for x in simulation['simulation'] if 'Agent' in x]
+#     y += [simulation['simulation'][x]['total_distance'] for x in simulation['simulation'] if 'Agent' in x]
+
+# plt.xlabel("Temps (s)")
+# plt.ylabel("Distance (m)")
+# plt.title("Distance en fonction du temps par agent")
+# plt.scatter(x, y)
+# plt.show()
+
+
 x = []
 y = []
 for simulation in data:
     x += ["Simulation %i" % (len(x)+1)]
-    total_consumption = 0
+    total_speed = 0
     nb_agents = 0
     for info in simulation['simulation']:
         if 'Agent' in info:
             nb_agents += 1
-            total_consumption += simulation['simulation'][info]["total_consumption"]
-    y.append(total_consumption/nb_agents)
+            total_speed += simulation['simulation'][info]["total_distance"] / simulation['simulation'][info]["total_time"]
+    y.append(total_speed/nb_agents)
 
 print(x)
 print(y)
 
 plt.barh(x, y)
-plt.xlabel("Coût (€)")
-plt.title("Coût moyen de la consommation énergétique par agent par simulation")
+plt.xlabel("Vitesse (m/s)")
+plt.title("Vitesse moyenne des agents par simulation")
 plt.show()
