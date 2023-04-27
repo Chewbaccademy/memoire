@@ -32,20 +32,43 @@ for file in files:
 
 # Emission
 
+# x = []
+# y = []
+# for simulation in data:
+#     x += ["Simulation %i" % (len(x)+1)]
+#     total_emission = 0
+#     for info in simulation['simulation']:
+#         if 'Agent' in info:
+#             total_emission += simulation['simulation'][info]["total_emission"]
+#     y.append(total_emission)
+
+# print(x)
+# print(y)
+
+# plt.barh(x, y)
+# plt.xlabel("emission de CO2")
+# plt.title("Emission totale par simulation")
+# plt.show()
+
+
+# Consumption
+
 x = []
 y = []
 for simulation in data:
     x += ["Simulation %i" % (len(x)+1)]
-    total_emission = 0
+    total_consumption = 0
+    nb_agents = 0
     for info in simulation['simulation']:
         if 'Agent' in info:
-            total_emission += simulation['simulation'][info]["total_emission"]
-    y.append(total_emission)
+            nb_agents += 1
+            total_consumption += simulation['simulation'][info]["total_consumption"]
+    y.append(total_consumption/nb_agents)
 
 print(x)
 print(y)
 
 plt.barh(x, y)
-plt.xlabel("emission de CO2")
-plt.title("Emission totale par simulation")
+plt.xlabel("Coût (€)")
+plt.title("Coût moyen de la consommation énergétique par agent par simulation")
 plt.show()
