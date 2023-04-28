@@ -1,10 +1,10 @@
 {
     "Noeud1-Noeud2": {
-        "length": 100,
+        "length": 50,
         "lanes": 1
     },
     "Noeud1-Noeud3": {
-        "length": 100,
+        "length": 50,
         "lanes": 1
     },
     "Noeud1-Noeud5": {
@@ -12,55 +12,59 @@
         "lanes": 1
     },
     "Noeud2-Noeud1": {
-        "length": 100,
+        "length": 40,
         "lanes": 1
     },
     "Noeud2-Noeud6": {
-        "length": 100,
+        "length": 70,
         "lanes": 1
     },
     "Noeud2-Noeud7": {
-        "length": 100,
+        "length": 80,
         "lanes": 1
     },
     "Noeud3-Noeud1": {
         "length": 100,
         "lanes": 1
     },
+    "Noeud3-Noeud4": {
+        "length": 140,
+        "lanes": 1
+    },
     "Noeud3-Noeud10": {
-        "length": 100,
+        "length": 70,
         "lanes": 1
     },
     "Noeud4-Noeud6": {
-        "length": 100,
+        "length": 90,
         "lanes": 1
     },
     "Noeud4-Noeud8": {
-        "length": 100,
+        "length": 20,
         "lanes": 1
     },
     "Noeud5-Noeud1": {
-        "length": 100,
+        "length": 30,
         "lanes": 1
     },
     "Noeud5-Noeud7": {
-        "length": 100,
+        "length": 40,
         "lanes": 1
     },
     "Noeud5-Noeud9": {
-        "length": 100,
+        "length": 60,
         "lanes": 1
     },
     "Noeud5-Noeud10": {
-        "length": 100,
+        "length": 70,
         "lanes": 1
     },
     "Noeud6-Noeud2": {
-        "length": 100,
+        "length": 90,
         "lanes": 1
     },
     "Noeud6-Noeud4": {
-        "length": 100,
+        "length": 50,
         "lanes": 1
     },
     "Noeud6-Noeud8": {
@@ -68,35 +72,39 @@
         "lanes": 1
     },
     "Noeud6-Noeud9": {
-        "length": 100,
+        "length": 90,
         "lanes": 1
     },
     "Noeud7-Noeud2": {
-        "length": 100,
+        "length": 70,
         "lanes": 1
     },
     "Noeud7-Noeud5": {
-        "length": 100,
+        "length": 40,
         "lanes": 1
     },
     "Noeud8-Noeud4": {
-        "length": 100,
+        "length": 80,
         "lanes": 1
     },
     "Noeud8-Noeud6": {
-        "length": 100,
+        "length": 70,
         "lanes": 1
     },
     "Noeud8-Noeud9": {
-        "length": 100,
+        "length": 60,
+        "lanes": 1
+    },
+    "Noeud9-Noeud3": {
+        "length": 30,
         "lanes": 1
     },
     "Noeud9-Noeud5": {
-        "length": 100,
+        "length": 40,
         "lanes": 1
     },
     "Noeud9-Noeud6": {
-        "length": 100,
+        "length": 25,
         "lanes": 1
     },
     "Noeud9-Noeud8": {
@@ -104,15 +112,19 @@
         "lanes": 1
     },
     "Noeud9-Noeud10": {
-        "length": 100,
+        "length": 70,
         "lanes": 1
     },
     "Noeud10-Noeud3": {
-        "length": 100,
+        "length": 85,
         "lanes": 1
     },
     "Noeud10-Noeud5": {
-        "length": 100,
+        "length": 90,
+        "lanes": 1
+    },
+    "Noeud10-Noeud7": {
+        "length": 40,
         "lanes": 1
     },
     "Noeud10-Noeud9": {

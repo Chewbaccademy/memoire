@@ -44,20 +44,22 @@ class ControlledAgent(Agent):
         if targeted_node.signage == None or targeted_node.signage == "none":
             current_index = targeted_node.edges.index(self.current_place.get_property("name"))
             priority_index = (current_index + 1 if current_index + 1 < len(targeted_node.edges) else 0)
+            super_priority_index = (priority_index + 1 if priority_index + 1 < len(targeted_node.edges) else 0)
             priority_edge = self.graph.get_edge_by_name(targeted_node.edges[priority_index])
-            try:
-                print(priority_edge, priority_edge.get_property("length"))
-            except Exception as e:
-                print(targeted_node.edges)
-                print(current_index)
-                print(priority_index)
-                raise e
+            super_priority_edge = self.graph.get_edge_by_name(targeted_node.edges[super_priority_index])
             if priority_edge.vehicule_list == []:
                 return True
-            return priority_edge.vehicule_list[0].distance_parcourue_sur_arrete \
-                                + priority_edge.vehicule_list[0].vitesse \
-                                * self.time_slice \
-                                <= priority_edge.get_property('length')
+            if (priority_edge.vehicule_list[0].distance_parcourue_sur_arrete \
+                                + (priority_edge.vehicule_list[0].vitesse \
+                                * self.time_slice)) \
+                                > priority_edge.get_property('length') \
+                    and (super_priority_edge.vehicule_list == [] or (super_priority_edge.vehicule_list[0].distance_parcourue_sur_arrete \
+                                + (super_priority_edge.vehicule_list[0].vitesse \
+                                * self.time_slice)) \
+                                <= super_priority_edge.get_property('length')):
+                return False
+            
+            return True
                                 
         elif targeted_node.signage == "lights":
             if not self.current_place.name in targeted_node.light_phases[targeted_node.get_property("current_phase")]["edges"]:
@@ -97,8 +99,8 @@ class ControlledAgent(Agent):
             self.terminate = True
             return True
         
-        
-        print("%s | current_place : %s | length_driven : %s | path : %s | terminated : %s" % (self.name, self.current_place, self.distance_parcourue_sur_arrete, self.display_path(), self.terminate))
+
+        print("%s | l: %s | current_place : %s | length_driven : %s | vitesse : %s" % (self.name,self.length, self.current_place, self.distance_parcourue_sur_arrete, self.vitesse))
         
         # travel to the next edge on the path
         if type(self.current_place) == Node:
