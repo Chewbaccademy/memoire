@@ -15,8 +15,9 @@ cpt = 0
 for file in files:
     nom_simulation = "simulation_" + str(cpt+1)
     with open(file, 'r') as f:
-        data_kilian = json.loads(f.read())
-        data.append({"simulation": json.loads(f.read())})
+        raw = f.read()
+        data_kilian = json.loads(raw)
+        data.append({"simulation": json.loads(raw)})
         for index, agent in enumerate([a for a in data_kilian if 'Agent' in a]):
             df.loc[cpt * 15 + index] = [data_kilian[agent]["time_by_distance"], data_kilian[agent]["time_wo_stop"], nom_simulation]
     cpt += 1
