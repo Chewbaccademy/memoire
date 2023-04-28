@@ -12,11 +12,11 @@ possible_signages = ["none", "lights"]
 node_edges = {
     "Noeud1" : ["Noeud5-Noeud1", "Noeud2-Noeud1", "Noeud3-Noeud1"],
     "Noeud2" : ["Noeud1-Noeud2", "Noeud6-Noeud2", "Noeud7-Noeud2"],
-    "Noeud3" : ["Noeud1-Noeud3", "Noeud10-Noeud3"],
-    "Noeud4" : ["Noeud6-Noeud4", "Noeud8-Noeud4"],
+    "Noeud3" : ["Noeud1-Noeud3", "Noeud10-Noeud3", "Noeud9-Noeud3"],
+    "Noeud4" : ["Noeud6-Noeud4", "Noeud8-Noeud4", "Noeud3-Noeud4"],
     "Noeud5" : ["Noeud1-Noeud5", "Noeud10-Noeud5", "Noeud9-Noeud5", "Noeud7-Noeud5"],
     "Noeud6" : ["Noeud2-Noeud6", "Noeud4-Noeud6", "Noeud8-Noeud6", "Noeud9-Noeud6"],
-    "Noeud7" : ["Noeud2-Noeud7", "Noeud5-Noeud7"],
+    "Noeud7" : ["Noeud2-Noeud7", "Noeud5-Noeud7", "Noeud10-Noeud7"],
     "Noeud8" : ["Noeud4-Noeud8", "Noeud6-Noeud8", "Noeud9-Noeud8"],
     "Noeud9" : ["Noeud5-Noeud9", "Noeud6-Noeud9", "Noeud8-Noeud9", "Noeud10-Noeud9"],
     "Noeud10" : ["Noeud3-Noeud10", "Noeud5-Noeud10", "Noeud9-Noeud10"]
@@ -79,12 +79,12 @@ for i in range(N):
     gr.set_edges_properties(aretesp)    
     gr.puml_to_file("graphs_file/res1.puml")
     param_agents = rd.read_json("test/1.agents")
-    random.seed(param_agents["seed"])
+    rng = random.Random(param_agents["seed"])
     n = 1 # Id to make sure agents names are unique
     agents = []
     for agent_type in param_agents["agents"]:
         for k in range(agent_type["number"]):
-            start_end = random.sample(gr.nodes, 2)
+            start_end = rng.sample(gr.nodes, 2)
             name = "Agent%i" % n
             n += 1
             agent = c.ControlledAgent(name, agent_type["length"], agent_type["vitesse_max"], gr, start_end[0], start_end[1], emission=agent_type["emission"], emission_idle=agent_type["emission_idle"], consumption=agent_type["consumption"])
@@ -93,7 +93,7 @@ for i in range(N):
 
     engine = c.Engine(gr, agents)
     engine.display_state()
-    engine.simulate(0.1)
+    engine.simulate(0.25)
 
     # Rename the result files
     os.rename("results/agents_data.csv", "results/%i_agents_data.csv" % i)
