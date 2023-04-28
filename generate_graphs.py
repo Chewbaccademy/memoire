@@ -15,10 +15,10 @@ cpt = 0
 for file in files:
     nom_simulation = "simulation_" + str(cpt+1)
     with open(file, 'r') as f:
-        data_kilian = json.loads(f.read())
+        #data_kilian = json.loads(f.read())
         data.append({"simulation": json.loads(f.read())})
-        for index, agent in enumerate([a for a in data_kilian if 'Agent' in a]):
-            df.loc[cpt * 15 + index] = [data_kilian[agent]["time_by_distance"], data_kilian[agent]["time_wo_stop"], nom_simulation]
+        #for index, agent in enumerate([a for a in data_kilian if 'Agent' in a]):
+         #   df.loc[cpt * 15 + index] = [data_kilian[agent]["time_by_distance"], data_kilian[agent]["time_wo_stop"], nom_simulation]
     cpt += 1
         
 def mean(data:list):
@@ -36,8 +36,8 @@ print(df.to_string())
 # # x = [d['mean_time_by_distance'] for d in refined_data]
 # # y = [d['mean_time_wo_stop'] for d in refined_data]
 
-sns.scatterplot(data=df, x="time_by_distance", y="time_wo_stop", hue="simulation_id")
-plt.show()
+# sns.scatterplot(data=df, x="time_by_distance", y="time_wo_stop", hue="simulation_id")
+# plt.show()
 
 plt.rcParams["figure.figsize"] = (9,5)
 
@@ -75,13 +75,14 @@ plt.rcParams["figure.figsize"] = (9,5)
 # print(x)
 # print(y)
 
-# plt.barh(x, y)
-# plt.xlabel("emission de CO2")
+# #plt.barh(x, y)
+# sns.barplot(x=y, y=x, orient='h')
+# plt.xlabel("emission de CO2 (u.a.)")
 # plt.title("Emission totale par simulation")
 # plt.show()
 
 
-# Consumption
+# # Consumption
 
 # x = []
 # y = []
@@ -98,13 +99,14 @@ plt.rcParams["figure.figsize"] = (9,5)
 # print(x)
 # print(y)
 
-# plt.barh(x, y)
-# plt.xlabel("Coût (€)")
+# #plt.barh(x, y)
+# sns.barplot(x=y, y=x, orient='h')
+# plt.xlabel("Coût (u.a.)")
 # plt.title("Coût moyen de la consommation énergétique par agent par simulation")
 # plt.show()
 
 
-# Travel time
+# # Travel time
 
 
 # x = []
@@ -116,7 +118,28 @@ plt.rcParams["figure.figsize"] = (9,5)
 # plt.xlabel("Temps (s)")
 # plt.ylabel("Distance (m)")
 # plt.title("Distance en fonction du temps par agent")
-# plt.scatter(x, y)
+# sns.scatterplot(x=x, y=y)
+# plt.show()
+
+
+# x = []
+# y = []
+# for simulation in data:
+#     x += ["Simulation %i" % (len(x)+1)]
+#     total_speed = 0
+#     nb_agents = 0
+#     for info in simulation['simulation']:
+#         if 'Agent' in info:
+#             nb_agents += 1
+#             total_speed += simulation['simulation'][info]["total_distance"] / simulation['simulation'][info]["total_time"]
+#     y.append(total_speed/nb_agents)
+
+# print(x)
+# print(y)
+
+# sns.barplot(x=y, y=x, orient='h')
+# plt.xlabel("Vitesse (m/s)")
+# plt.title("Vitesse moyenne des agents par simulation")
 # plt.show()
 
 
@@ -124,18 +147,18 @@ x = []
 y = []
 for simulation in data:
     x += ["Simulation %i" % (len(x)+1)]
-    total_speed = 0
-    nb_agents = 0
+    min_speed = 999
     for info in simulation['simulation']:
         if 'Agent' in info:
-            nb_agents += 1
-            total_speed += simulation['simulation'][info]["total_distance"] / simulation['simulation'][info]["total_time"]
-    y.append(total_speed/nb_agents)
+            speed = simulation['simulation'][info]["total_distance"] / simulation['simulation'][info]["total_time"]
+            if min_speed > speed:
+                min_speed = speed
+    y.append(min_speed)
 
 print(x)
 print(y)
 
-plt.barh(x, y)
+sns.barplot(x=y, y=x, orient='h')
 plt.xlabel("Vitesse (m/s)")
-plt.title("Vitesse moyenne des agents par simulation")
+plt.title("Vitesse minimale des agents par simulation")
 plt.show()
