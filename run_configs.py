@@ -93,7 +93,7 @@ for i in range(N):
 
     engine = c.Engine(gr, agents)
     engine.display_state()
-    engine.simulate(0.25)
+    engine.simulate(0.5)
 
     # Rename the result files
     os.rename("results/agents_data.csv", "results/%i_agents_data.csv" % i)
