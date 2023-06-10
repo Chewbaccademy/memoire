@@ -8,32 +8,41 @@ import numpy as np
 
 data = []
 
-files = glob.glob('results/*_agents_data.json')
+files = sorted([x for x in glob.glob('results/*_agents_data.json')])
 
 df = pd.DataFrame(columns=["time_by_distance", "time_wo_stop", "simulation_id"])
 raw = ""
 cpt = 0
 for file in files:
+    print(file)
     nom_simulation = "simulation_" + str(cpt+1)
     with open(file, 'r') as f:
         raw = f.read()
         data_kilian = json.loads(raw)
         data.append({"simulation": json.loads(raw)})
         for index, agent in enumerate([a for a in data_kilian if 'Agent' in a]):
-            df.loc[cpt * 60 + index] = [data_kilian[agent]["time_by_distance"], (data_kilian[agent]["time_by_distance"] - data_kilian[agent]["time_wo_stop"]) / data_kilian[agent]["time_wo_stop"], nom_simulation]
+            df.loc[cpt * 60 + index] = [data_kilian[agent]["time_by_distance"], (data_kilian[agent]["time_by_distance"] - data_kilian[agent]["time_wo_stop"]) , nom_simulation]
     cpt += 1
         
 def mean(data:list):
     return sum(data)/len(data)
 
 def sort_func(x):
-    return int(str(x).split('_')[1])
+    return int(str(x).split(' ')[1])
 
 dataf = df.groupby("simulation_id").mean()
 print(dataf)
 
-x = dataf["time_by_distance"]
-y = dataf["time_wo_stop"]
+x = []
+y = []
+for i in range(20):
+    x.append("Simulation " + str(i+1))
+    y.append(1 / dataf["time_wo_stop"]["simulation_" + str(i+1)])
+
+sns.barplot(x=y, y=x, orient='h')
+plt.title("Moyenne des écart par rapport à un attendu par simulation")
+plt.xlabel("Moyenne des écart par rapport à l'attendu")
+plt.show()
 
 
 # x = []
@@ -46,38 +55,42 @@ y = dataf["time_wo_stop"]
 # # x = [d['mean_time_by_distance'] for d in refined_data]
 # # y = [d['mean_time_wo_stop'] for d in refined_data]
 
-sns.scatterplot(data=df, x="time_by_distance", y="time_wo_stop", hue="simulation_id")
-plt.plot([0.1, 1.15], [0, 10], color='red', linestyle='-', linewidth=2)
+df["m_v"] = 1 / df["time_by_distance"]
+
+sns.scatterplot(data=df, x="m_v", y="time_wo_stop", hue="simulation_id")
+plt.xlabel("Vitesse moyenne")
+plt.ylabel("Ecart des temps de trajet attendu")
+plt.title("Ecart des temps de trajet attendu en fonction de la vitesse moyenne par agent")
 plt.show()
+exit(0)
+# df["best_way"] = df["time_by_distance"] == df["time_wo_stop"]
 
-df["best_way"] = df["time_by_distance"] == df["time_wo_stop"]
+# df2 = pd.DataFrame(index=df["simulation_id"].unique())
+# df2["agent_best"] = df[df["best_way"] == 1].groupby("simulation_id").count()["best_way"]
+# df2["agent_not_best"] = df[df["best_way"] == 0].groupby("simulation_id").count()["best_way"]
+# print(df2)
 
-df2 = pd.DataFrame(index=df["simulation_id"].unique())
-df2["agent_best"] = df[df["best_way"] == 1].groupby("simulation_id").count()["best_way"]
-df2["agent_not_best"] = df[df["best_way"] == 0].groupby("simulation_id").count()["best_way"]
-print(df2)
+# d = {"agent_did_best": df2["agent_best"], "pct_agent_did_best": (df2["agent_best"] / (df2["agent_best"] + df2["agent_not_best"]) * 100)}
+# dataf = pd.DataFrame(d)
+# dataf.to_csv("results/stats_agent_did_best.csv")
+# # print(dataf)
 
-d = {"agent_did_best": df2["agent_best"], "pct_agent_did_best": (df2["agent_best"] / (df2["agent_best"] + df2["agent_not_best"]) * 100)}
-dataf = pd.DataFrame(d)
-dataf.to_csv("results/stats_agent_did_best.csv")
-# print(dataf)
+# c = {
+#     "agent_did_best": df2["agent_best"],
+#     "agent_did_not_best": df2["agent_not_best"]
+# }
 
-c = {
-    "agent_did_best": df2["agent_best"],
-    "agent_did_not_best": df2["agent_not_best"]
-}
+# x = tuple(df2.index)
 
-x = tuple(df2.index)
+# fig, ax = plt.subplots()
+# bottom = np.zeros(20)
 
-fig, ax = plt.subplots()
-bottom = np.zeros(20)
+# for i, row in c.items():
+#     p = ax.bar(x, np.array(row), 0.5, label=i, bottom=bottom)
+#     bottom += row
 
-for i, row in c.items():
-    p = ax.bar(x, np.array(row), 0.5, label=i, bottom=bottom)
-    bottom += row
-
-ax.set_title("Nombre d'agents ayant réalisé le temps attendu par simulation")
-plt.xticks(rotation = 45)
+# ax.set_title("Nombre d'agents ayant réalisé le temps attendu par simulation")
+# plt.xticks(rotation = 45)
 
 # plt.show()
 
@@ -163,26 +176,26 @@ plt.rcParams["figure.figsize"] = (9,5)
 # sns.scatterplot(x=x, y=y)
 # plt.show()
 
+print(data)
+x = []
+y = []
+for simulation in data:
+    x += ["Simulation %i" % (len(x)+1)]
+    total_speed = 0
+    nb_agents = 0
+    for info in simulation['simulation']:
+        if 'Agent' in info:
+            nb_agents += 1
+            total_speed += simulation['simulation'][info]["total_distance"] / simulation['simulation'][info]["total_time"]
+    y.append(total_speed/nb_agents)
 
-# x = []
-# y = []
-# for simulation in data:
-#     x += ["Simulation %i" % (len(x)+1)]
-#     total_speed = 0
-#     nb_agents = 0
-#     for info in simulation['simulation']:
-#         if 'Agent' in info:
-#             nb_agents += 1
-#             total_speed += simulation['simulation'][info]["total_distance"] / simulation['simulation'][info]["total_time"]
-#     y.append(total_speed/nb_agents)
+print(x)
+print(y)
 
-# print(x)
-# print(y)
-
-# sns.barplot(x=y, y=x, orient='h')
-# plt.xlabel("Vitesse (m/s)")
-# plt.title("Vitesse moyenne des agents par simulation")
-# plt.show()
+sns.barplot(x=y, y=x, orient='h')
+plt.xlabel("Vitesse (m/s)")
+plt.title("Vitesse moyenne des agents par simulation")
+plt.show()
 
 
 x = []
@@ -197,10 +210,6 @@ for simulation in data:
                 min_speed = speed
     y.append(min_speed)
 
-plt.barh(x, y)
-plt.xlabel("Vitesse (m/s)")
-plt.title("Vitesse moyenne des agents par simulation")
-# plt.show()
 print(x)
 print(y)
 
